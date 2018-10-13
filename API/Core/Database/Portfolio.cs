@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Portfolio
+    public class Portfolio : BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ProjectUrl { get; set; }

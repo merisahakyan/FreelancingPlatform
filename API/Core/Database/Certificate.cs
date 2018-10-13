@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Certificate
+    public class Certificate : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<UserCertificate> UserCertificates { get; set; }
 

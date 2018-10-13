@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Education
+    public class Education : BaseEntity
     {
-        public int Id { get; set; }
         public string School { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 
-namespace API
+namespace Core.Database
 {
     public class ApplicationDbContext : DbContext
     {
@@ -474,18 +474,18 @@ namespace API
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(Startup.ConnectionString);
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ApplicationDb;Trusted_Connection=True;ConnectRetryCount=0");
         }
 
     }
 
-    public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-    {
-        public ApplicationDbContext CreateDbContext(string[] args)
-        {
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlServer(Startup.ConnectionString);
-            return new ApplicationDbContext(builder.Options);
-        }
-    }
+    //public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    //{
+    //    public ApplicationDbContext CreateDbContext(string[] args)
+    //    {
+    //        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+    //        builder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ApplicationDb;Trusted_Connection=True;ConnectRetryCount=0");
+    //        return new ApplicationDbContext(builder.Options);
+    //    }
+    //}
 }

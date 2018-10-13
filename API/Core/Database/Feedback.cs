@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Feedback
+    public class Feedback : BaseEntity
     {
-        public int Id { get; set; }
         public string Message { get; set; }
         public int Rating { get; set; }
 

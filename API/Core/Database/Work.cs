@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Work
+    public class Work : BaseEntity
     {
-        public int Id { get; set; }
         public string Description { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }

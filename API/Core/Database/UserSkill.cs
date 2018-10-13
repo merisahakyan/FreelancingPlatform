@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class UserSkill
+    public class UserSkill : BaseEntity
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int SkillId { get; set; }
         public User User { get; set; }

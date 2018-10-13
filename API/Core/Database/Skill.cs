@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Skill
+    public class Skill : BaseEntity
     {
-        public int Id { get; set; }
         public int Name { get; set; }
         public IEnumerable<UserSkill> UserSkills { get; set; }
     }

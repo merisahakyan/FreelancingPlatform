@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Core.Database
 {
-    public class Employment
+    public class Employment : BaseEntity
     {
-        public int Id { get; set; }
         public string Company { get; set; }
         public string City { get; set; }
         public string Title { get; set; }
