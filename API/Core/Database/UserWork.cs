@@ -10,6 +10,8 @@ namespace Core.Database
         public int WorkId { get; set; }
         public decimal UserRate { get; set; }
         public decimal TotalEarned { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
         public User User { get; set; }
         public Work Work { get; set; }
     }

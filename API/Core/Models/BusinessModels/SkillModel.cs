@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Database
+namespace Core.Models.BusinessModels
 {
-    public class Skill : BaseEntity
+    public class SkillModel
     {
         public string Name { get; set; }
-        public IEnumerable<UserSkill> UserSkills { get; set; }
     }
 }
