@@ -116,6 +116,7 @@ namespace BLL.Operations
                             let l = _repositoryManager.Locations.GetSingle(u.LocationId)
                             select new UserViewModel
                             {
+                                Id = u.Id,
                                 DescriptionHeader = u.DescriptionHeader,
                                 Firstname = u.Firstname,
                                 Lastname = u.Lastname,

@@ -16,7 +16,22 @@ namespace Core.Database
         {
         }
 
+        public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Employment> Employments { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Key> Keys { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Portfolio> Portfolios { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Skill> Skills { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserCertificate> UserCertificates { get; set; }
+        public DbSet<UserSkill> UserSkills { get; set; }
+        public DbSet<UserWork> UserWorks { get; set; }
+        public DbSet<Work> Works { get; set; }
+        public DbSet<WorkKey> WorkKeys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -205,6 +220,34 @@ namespace Core.Database
                 .HasForeignKey(p => p.UserId)
                 .IsRequired();
 
+            modelBuilder.Entity<Proposal>()
+               .Property(b => b.Id)
+               .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Proposal>()
+                .Property(b => b.Date)
+                .IsRequired();
+
+            modelBuilder.Entity<Proposal>()
+                .Property(b => b.DaysCount)
+                .IsRequired();
+
+            modelBuilder.Entity<Proposal>()
+                .Property(b => b.Rate)
+                .IsRequired();
+            
+            modelBuilder.Entity<Proposal>()
+                .HasOne<User>(uw => uw.User)
+                .WithMany(u => u.Proposals)
+                .HasForeignKey(uw => uw.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<Proposal>()
+                .HasOne<Work>(uw => uw.Work)
+                .WithMany(w => w.Proposals)
+                .HasForeignKey(uw => uw.WorkId)
+                .IsRequired();
+
             modelBuilder.Entity<Role>()
                 .HasKey(b => b.Id);
 
@@ -320,6 +363,12 @@ namespace Core.Database
 
             modelBuilder.Entity<User>()
               .HasMany<Portfolio>(u => u.Portfolios)
+              .WithOne(p => p.User)
+              .HasForeignKey(p => p.UserId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+              .HasMany<Proposal>(u => u.Proposals)
               .WithOne(p => p.User)
               .HasForeignKey(p => p.UserId)
               .OnDelete(DeleteBehavior.Cascade);
@@ -451,6 +500,12 @@ namespace Core.Database
              .WithOne(f => f.Work)
              .HasForeignKey(f => f.WorkId)
              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Work>()
+              .HasMany<Proposal>(u => u.Proposals)
+              .WithOne(p => p.Work)
+              .HasForeignKey(p => p.WorkId)
+              .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<WorkKey>()
                 .HasKey(b => b.Id);

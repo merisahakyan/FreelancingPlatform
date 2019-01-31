@@ -14,6 +14,7 @@ namespace Core
         IKeyRepository Keys { get; }
         ILocationRepository Locations { get; }
         IPortfolioRepository Portfolios { get; }
+        IProposalRepository Proposals { get; }
         IRoleRepository Roles { get; }
         ISkillRepository Skills { get; }
         IUserCertificateRepositiry UserCertificates { get; }

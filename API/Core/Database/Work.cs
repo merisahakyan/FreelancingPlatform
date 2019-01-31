@@ -12,6 +12,7 @@ namespace Core.Database
         public User Creator { get; set; }
         public IEnumerable<WorkKey> WorkKeys { get; set; }
         public IEnumerable<UserWork> UserWorks { get; set; }
+        public IEnumerable<Proposal> Proposals { get; set; }
         public IEnumerable<Feedback> Feedbacks { get; set; }
     }
 }

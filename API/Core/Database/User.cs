@@ -29,6 +29,7 @@ namespace Core.Database
         public IEnumerable<Feedback> ReceivedFeedbacks { get; set; }
         public IEnumerable<Feedback> GivingFeedbacks { get; set; }
         public IEnumerable<Portfolio> Portfolios { get; set; }
+        public IEnumerable<Proposal> Proposals { get; set; }
         public IEnumerable<UserSkill> UserSkills { get; set; }
         public IEnumerable<UserCertificate> UserCertificates { get; set; }
         public IEnumerable<Employment> Employment { get; set; }

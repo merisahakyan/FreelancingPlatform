@@ -25,7 +25,7 @@ namespace DAL.Repositories
             Context.Set<T>().Remove(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
             return Context.Set<T>();
         }
