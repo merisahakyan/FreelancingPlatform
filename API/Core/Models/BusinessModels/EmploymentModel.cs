@@ -11,5 +11,9 @@ namespace Core.Models.BusinessModels
         public string Description { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        public string  City { get; set; }
+        public bool CurrentlyWorking { get; set; }
+        public int LocationId { get; set; }
+        public string Title { get; set; }
     }
 }

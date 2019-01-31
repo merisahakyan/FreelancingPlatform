@@ -58,6 +58,7 @@ namespace BLL.Operations
             };
 
             _repositoryManager.Proposals.Add(dbProposal);
+            _repositoryManager.Proposals.SaveChanges();
         }
     }
 }

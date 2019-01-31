@@ -12,5 +12,6 @@ namespace Core.RepositoryInterfaces
         void Update(T entity);
         void Add(T entity);
         void Delete(int id);
+        void SaveChanges();
     }
 }

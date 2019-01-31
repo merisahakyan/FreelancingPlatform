@@ -39,5 +39,10 @@ namespace DAL.Repositories
         {
             Context.Set<T>().Update(entity);
         }
+
+        public void SaveChanges()
+        {
+            Context.SaveChanges();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Database;
 using Core.Models.BusinessModels;
 using Core.Models.FilterModels;
 using Core.Models.ViewModels;
@@ -17,6 +18,17 @@ namespace BLL.Operations
         {
             _repositoryManager = repositoryManager;
         }
+
+        public void BreakContract(int userId, int workId)
+        {
+            var userWork = _repositoryManager.UserWorks.GetAll().FirstOrDefault(uw => uw.UserId == userId && uw.WorkId == workId);
+
+            if (userWork == null)
+                throw new Exception();
+            _repositoryManager.UserWorks.Delete(userWork.Id);
+            _repositoryManager.UserWorks.SaveChanges();
+        }
+
         public WorkModel GetWork(int id)
         {
             var work = _repositoryManager.Works.GetSingle(id);
@@ -68,6 +80,20 @@ namespace BLL.Operations
                                 WorkKeys = keys.ToList()
                             };
             return usersList;
+        }
+
+        public void Hire(int userId, int workId, decimal rate)
+        {
+            var userWork = new UserWork
+            {
+                DateFrom = DateTime.Now,
+                Active = true,
+                UserId = userId,
+                UserRate = rate,
+                WorkId = workId
+            };
+            _repositoryManager.UserWorks.Add(userWork);
+            _repositoryManager.UserWorks.SaveChanges();
         }
     }
 }

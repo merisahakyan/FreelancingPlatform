@@ -12,6 +12,7 @@ namespace Core.Database
         public decimal TotalEarned { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        public bool Active { get; set; }
         public User User { get; set; }
         public Work Work { get; set; }
     }

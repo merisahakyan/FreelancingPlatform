@@ -17,8 +17,6 @@ namespace Core.Database
         public int HoursWorked { get; set; }
         public decimal TotalEarned { get; set; }
         public bool Availability { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
         public string PhoneNumber { get; set; }
         public string PasswordHash { get; set; }
         public Location Location { get; set; }

@@ -11,5 +11,6 @@ namespace Core.OperationInterfaces
     {
         IEnumerable<UserViewModel> GetUsers(UserFilterModel filter);
         UserModel GetUser(int id);
+        void RegisterUser(UserModel user);
     }
 }

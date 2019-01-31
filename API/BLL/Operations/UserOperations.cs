@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Database;
 using Core.Models.BusinessModels;
 using Core.Models.FilterModels;
 using Core.Models.ViewModels;
@@ -27,7 +28,8 @@ namespace BLL.Operations
                                             {
                                                 DateFrom = e.DateFrom,
                                                 DateTo = e.DateTo,
-                                                Description = $"{e.Description} | {e.School}"
+                                                Description = $"{e.Description} | {e.School}",
+                                                Degree = e.Degree,
                                             });
 
             var employment = _repositoryManager.Employments.GetAll()
@@ -129,6 +131,78 @@ namespace BLL.Operations
                                 }
                             };
             return usersList;
+        }
+
+        public void RegisterUser(UserModel user)
+        {
+            var dbUser = new User()
+            {
+                Availability = user.Availability,
+                Description = user.Description,
+                DescriptionHeader = user.DescriptionHeader,
+                Firstname = user.Firstname,
+                HourlyRate = user.HourlyRate,
+                Lastname = user.Lastname,
+                LocationId = user.Location.Id,
+                Username = user.Username,
+                PasswordHash = user.PasswordHash,
+                PhoneNumber = user.Phonenumber,
+                TimePlusUTC = user.TimePlusUTC,
+                RoleId = user.RoleId,
+            };
+            _repositoryManager.Users.Add(dbUser);
+            _repositoryManager.Users.SaveChanges();
+
+            foreach (var e in user.Education)
+            {
+                _repositoryManager.Educations.Add(new Education
+                {
+                    DateFrom = e.DateFrom,
+                    DateTo = e.DateTo,
+                    Degree = e.Degree,
+                    Description = e.Description,
+                    School = e.SchoolOrInstitute,
+                    UserId = dbUser.Id,
+                });
+            }
+
+            foreach (var e in user.Employment)
+            {
+                _repositoryManager.Employments.Add(new Employment
+                {
+                    DateFrom = e.DateFrom,
+                    DateTo = e.DateTo,
+                    Description = e.Description,
+                    UserId = dbUser.Id,
+                    City = e.City,
+                    Company = e.Company,
+                    CurrentlyWorking = e.CurrentlyWorking,
+                    LocationId = e.LocationId,
+                    Title = e.Title,
+                });
+            }
+
+            foreach (var e in user.Portfolios)
+            {
+                _repositoryManager.Portfolios.Add(new Portfolio
+                {
+                    Description = e.Description,
+                    UserId = dbUser.Id,
+                    ProjectUrl = e.ProjectUrl,
+                    Title = e.Title,
+                });
+            }
+
+            foreach (var e in user.Skills)
+            {
+                _repositoryManager.UserSkills.Add(new UserSkill
+                {
+                    UserId = dbUser.Id,
+                    SkillId = e.Id
+                });
+            }
+
+            _repositoryManager.Users.SaveChanges();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace Core.OperationInterfaces
     {
         IEnumerable<WorkViewModel> GetWorks(WorkFilterModel filter);
         WorkModel GetWork(int id);
+        void Hire(int userId, int workId, decimal rate);
+        void BreakContract(int userId, int workId);
     }
 }
