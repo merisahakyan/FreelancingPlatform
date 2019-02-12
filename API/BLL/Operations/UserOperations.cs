@@ -19,6 +19,12 @@ namespace BLL.Operations
             _repositoryManager = repositoryManager;
         }
 
+        public void DeleteUser(int id)
+        {
+            _repositoryManager.Users.Delete(id);
+            _repositoryManager.Users.SaveChanges();
+        }
+
         public UserModel GetUser(int id)
         {
             var user = _repositoryManager.Users.GetSingle(id);
@@ -133,7 +139,7 @@ namespace BLL.Operations
             return usersList;
         }
 
-        public void RegisterUser(UserModel user)
+        public UserViewModel RegisterUser(UserModel user)
         {
             var dbUser = new User()
             {
@@ -203,6 +209,36 @@ namespace BLL.Operations
             }
 
             _repositoryManager.Users.SaveChanges();
+
+            return new UserViewModel
+            {
+                Id = dbUser.Id,
+                DescriptionHeader = dbUser.DescriptionHeader,
+                Firstname = dbUser.Firstname,
+                HourlyRate = dbUser.HourlyRate,
+                Lastname = dbUser.Lastname,
+                TotalEarned = dbUser.TotalEarned
+            };
+        }
+
+        public void UpdateUser(UserModel user)
+        {
+            var dbUser = new User()
+            {
+                Availability = user.Availability,
+                Description = user.Description,
+                DescriptionHeader = user.DescriptionHeader,
+                Firstname = user.Firstname,
+                HourlyRate = user.HourlyRate,
+                Lastname = user.Lastname,
+                PasswordHash = user.PasswordHash,
+                PhoneNumber = user.Phonenumber,
+                Username = user.Username,
+            };
+            _repositoryManager.Users.Update(dbUser);
+
+            _repositoryManager.Users.SaveChanges();
+
         }
     }
 }

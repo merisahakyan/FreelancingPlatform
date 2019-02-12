@@ -13,6 +13,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Core.Database;
+using Core.OperationInterfaces;
+using BLL.Operations;
+using Core.RepositoryInterfaces;
+using DAL.Repositories;
+using Core;
+using DAL;
 
 namespace API
 {
@@ -38,6 +44,28 @@ namespace API
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSingleton(typeof(IUserOperations), typeof(UserOperations));
+            services.AddSingleton(typeof(IProposalOperations), typeof(ProposalOperations));
+            services.AddSingleton(typeof(IWorkOperations), typeof(WorkOperations));
+
+            services.AddSingleton(typeof(ICertificateRepository), typeof(CertificateRepository));
+            services.AddSingleton(typeof(IEducationRepository), typeof(EducationRepository));
+            services.AddSingleton(typeof(IEmploymentRepository), typeof(EploymentRepository));
+            services.AddSingleton(typeof(IFeedbackRepository), typeof(FeedbackRepository));
+            services.AddSingleton(typeof(IKeyRepository), typeof(KeyRepository));
+            services.AddSingleton(typeof(ILocationRepository), typeof(LocationRepository));
+            services.AddSingleton(typeof(IPortfolioRepository), typeof(PortfolioRepository));
+            services.AddSingleton(typeof(IProposalRepository), typeof(ProposalRepository));
+            services.AddSingleton(typeof(IRoleRepository), typeof(RoleRepository));
+            services.AddSingleton(typeof(ISkillRepository), typeof(SkillRepository));
+            services.AddSingleton(typeof(IUserCertificateRepositiry), typeof(UserCertificateRepository));
+            services.AddSingleton(typeof(IUserRepository), typeof(UserRepository));
+            services.AddSingleton(typeof(IUserSkillRepository), typeof(UserSkillRepository));
+            services.AddSingleton(typeof(IUserWorkRepository), typeof(UserWorkRepository));
+            services.AddSingleton(typeof(IWorkKeyRepository), typeof(WorkKeyRepository));
+            services.AddSingleton(typeof(IWorkRepository), typeof(WorkRepository));
+
+            services.AddSingleton(typeof(IRepositoryManager), typeof(RepositoryManager));
 
             var connection = ConfigurationExtensions.GetConnectionString(this.Configuration, "DefaultConnection");
             services.AddDbContext<ApplicationDbContext>

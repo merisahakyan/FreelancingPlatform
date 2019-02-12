@@ -1,4 +1,5 @@
-﻿using Core.Models.BusinessModels;
+﻿using Core.Database;
+using Core.Models.BusinessModels;
 using Core.Models.FilterModels;
 using Core.Models.ViewModels;
 using System;
@@ -11,6 +12,8 @@ namespace Core.OperationInterfaces
     {
         IEnumerable<UserViewModel> GetUsers(UserFilterModel filter);
         UserModel GetUser(int id);
-        void RegisterUser(UserModel user);
+        UserViewModel RegisterUser(UserModel user);
+        void UpdateUser(UserModel user);
+        void DeleteUser(int id);
     }
 }

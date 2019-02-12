@@ -37,7 +37,7 @@ namespace DAL
         public IPortfolioRepository Portfolios => _portfolios = new PortfolioRepository(_context);
 
         private IProposalRepository _proposals;
-        public IProposalRepository Proposaals => _proposals = new ProposalRepository(_context);
+        public IProposalRepository Proposals => _proposals = new ProposalRepository(_context);
 
         private IRoleRepository _roles;
         public IRoleRepository Roles => _roles = new RoleRepository(_context);
@@ -62,7 +62,5 @@ namespace DAL
 
         private IWorkRepository _works;
         public IWorkRepository Works => _works = new WorkRepository(_context);
-
-
     }
 }

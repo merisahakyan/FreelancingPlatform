@@ -30,7 +30,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Certificate");
+                    b.ToTable("Certificates");
                 });
 
             modelBuilder.Entity("Core.Database.Education", b =>
@@ -57,7 +57,7 @@ namespace Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Education");
+                    b.ToTable("Educations");
                 });
 
             modelBuilder.Entity("Core.Database.Employment", b =>
@@ -96,7 +96,7 @@ namespace Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employment");
+                    b.ToTable("Employments");
                 });
 
             modelBuilder.Entity("Core.Database.Feedback", b =>
@@ -124,7 +124,7 @@ namespace Core.Migrations
 
                     b.HasIndex("WorkId");
 
-                    b.ToTable("Feedback");
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Core.Database.Key", b =>
@@ -138,7 +138,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Key");
+                    b.ToTable("Keys");
                 });
 
             modelBuilder.Entity("Core.Database.Location", b =>
@@ -152,7 +152,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("Core.Database.Portfolio", b =>
@@ -175,7 +175,34 @@ namespace Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Portfolio");
+                    b.ToTable("Portfolios");
+                });
+
+            modelBuilder.Entity("Core.Database.Proposal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<long>("DaysCount");
+
+                    b.Property<string>("Message");
+
+                    b.Property<double>("Rate");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("WorkId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WorkId");
+
+                    b.ToTable("Proposals");
                 });
 
             modelBuilder.Entity("Core.Database.Role", b =>
@@ -189,7 +216,7 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Core.Database.Skill", b =>
@@ -198,11 +225,12 @@ namespace Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Core.Database.User", b =>
@@ -210,10 +238,6 @@ namespace Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address1");
-
-                    b.Property<string>("Address2");
 
                     b.Property<bool>("Availability");
 
@@ -277,7 +301,7 @@ namespace Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserCertificate");
+                    b.ToTable("UserCertificates");
                 });
 
             modelBuilder.Entity("Core.Database.UserSkill", b =>
@@ -296,7 +320,7 @@ namespace Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSkill");
+                    b.ToTable("UserSkills");
                 });
 
             modelBuilder.Entity("Core.Database.UserWork", b =>
@@ -304,6 +328,12 @@ namespace Core.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active");
+
+                    b.Property<DateTime>("DateFrom");
+
+                    b.Property<DateTime>("DateTo");
 
                     b.Property<decimal>("TotalEarned");
 
@@ -319,7 +349,7 @@ namespace Core.Migrations
 
                     b.HasIndex("WorkId");
 
-                    b.ToTable("UserWork");
+                    b.ToTable("UserWorks");
                 });
 
             modelBuilder.Entity("Core.Database.Work", b =>
@@ -333,11 +363,13 @@ namespace Core.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
+                    b.Property<string>("Header");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Work");
+                    b.ToTable("Works");
                 });
 
             modelBuilder.Entity("Core.Database.WorkKey", b =>
@@ -356,7 +388,7 @@ namespace Core.Migrations
 
                     b.HasIndex("WorkId");
 
-                    b.ToTable("WorkKey");
+                    b.ToTable("WorkKeys");
                 });
 
             modelBuilder.Entity("Core.Database.Education", b =>
@@ -403,6 +435,19 @@ namespace Core.Migrations
                     b.HasOne("Core.Database.User", "User")
                         .WithMany("Portfolios")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Core.Database.Proposal", b =>
+                {
+                    b.HasOne("Core.Database.User", "User")
+                        .WithMany("Proposals")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Core.Database.Work", "Work")
+                        .WithMany("Proposals")
+                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
