@@ -37,7 +37,7 @@ namespace BLL.Operations
                     Lastname = p.User.Lastname,
                     Location = new LocationModel
                     {
-                        Id = p.User.LocationId,
+                        Id = p.User.LocationId??0,
                         Country = p.User.Location.Country
                     }
                 },

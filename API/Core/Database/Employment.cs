@@ -14,9 +14,9 @@ namespace Core.Database
         public DateTime DateTo { get; set; }
         public bool CurrentlyWorking { get; set; }
         public string Description { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public Location Location { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
     }
 }

@@ -10,8 +10,8 @@ namespace Core.Database
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public long DaysCount { get; set; }
-        public int UserId { get; set; }
-        public int WorkId { get; set; }
+        public int? UserId { get; set; }
+        public int? WorkId { get; set; }
         public User User { get; set; }
         public Work Work { get; set; }
     }

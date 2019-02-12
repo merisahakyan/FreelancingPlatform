@@ -32,8 +32,8 @@ namespace BLL.Operations
         public WorkModel GetWork(int id)
         {
             var work = _repositoryManager.Works.GetSingle(id);
-            var creator = _repositoryManager.Users.GetSingle(work.CreatorId);
-            var location = _repositoryManager.Locations.GetSingle(creator.LocationId);
+            var creator = _repositoryManager.Users.GetSingle(work.CreatorId.Value);
+            var location = _repositoryManager.Locations.GetSingle(creator.LocationId.Value);
             var feedbacks = _repositoryManager.Feedbacks.GetAll().Where(f => f.ReceiverId == creator.Id);
             var workKeys = _repositoryManager.WorkKeys.GetAll().Where(k => k.WorkId == id).Select(wk => wk.KeyId);
             var keys = _repositoryManager.Keys.GetAll().Where(k => workKeys.Any(i => i == k.Id));

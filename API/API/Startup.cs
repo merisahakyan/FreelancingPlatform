@@ -68,8 +68,10 @@ namespace API
             services.AddSingleton(typeof(IRepositoryManager), typeof(RepositoryManager));
 
             var connection = ConfigurationExtensions.GetConnectionString(this.Configuration, "DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>
-                (options => options.UseSqlServer(connection));
+            services.AddTransient<ApplicationDbContext>(o => new ApplicationDbContext(connection));
+
+            //services.AddDbContext<ApplicationDbContext>
+            //    (options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -27,7 +27,7 @@ namespace BLL.Operations
 
         public UserModel GetUser(int id)
         {
-            var user = _repositoryManager.Users.GetSingle(id);
+            var user = _repositoryManager.Users.GetSingleWithInclude(id, u => u.Location);
             var education = _repositoryManager.Educations.GetAll()
                                             .Where(e => e.UserId == id)
                                             .Select(e => new EducationModel
@@ -36,7 +36,7 @@ namespace BLL.Operations
                                                 DateTo = e.DateTo,
                                                 Description = $"{e.Description} | {e.School}",
                                                 Degree = e.Degree,
-                                            });
+                                            }).ToList();
 
             var employment = _repositoryManager.Employments.GetAll()
                                             .Where(e => e.UserId == id)
@@ -47,8 +47,7 @@ namespace BLL.Operations
                                                 Description = e.Description,
                                                 Company = e.Company,
                                                 Role = e.Role
-                                            });
-            var location = _repositoryManager.Locations.GetSingle(user.LocationId);
+                                            }).ToList();
 
             var portfolios = _repositoryManager.Portfolios.GetAll()
                                               .Where(p => p.UserId == user.Id)
@@ -56,28 +55,30 @@ namespace BLL.Operations
                                               {
                                                   Title = p.Title,
                                                   Description = p.Description
-                                              });
+                                              }).ToList();
 
-            var feedbacks = from f in _repositoryManager.Feedbacks.GetAll()
-                            where f.ReceiverId == user.Id
-                            let userWork = _repositoryManager.UserWorks.GetAll()
-                                                             .FirstOrDefault(u => u.UserId == user.Id && u.WorkId == f.WorkId)
-                            let work = _repositoryManager.Works.GetSingle(f.WorkId)
-                            select new UserWorkModel
-                            {
-                                UserId = user.Id,
-                                Header = work.Header,
-                                DateFrom = userWork.DateFrom,
-                                DateTo = userWork.DateTo,
-                                TotalEarned = userWork.TotalEarned,
-                                UserRate = userWork.UserRate,
-                                WorkId = f.WorkId,
-                                Feedback = new FeedbackModel
-                                {
-                                    Rating = f.Rating,
-                                    Message = f.Message,
-                                }
-                            };
+            var feedbacks = (from f in _repositoryManager.Feedbacks.GetAll()
+                             join uw in _repositoryManager.UserWorks.GetAll()
+                             on f.WorkId equals uw.WorkId
+                             join w in _repositoryManager.Works.GetAll()
+                             on uw.WorkId equals w.Id
+                             where f.ReceiverId == user.Id && uw.UserId == user.Id
+
+                             select new UserWorkModel
+                             {
+                                 UserId = user.Id,
+                                 Header = w.Header,
+                                 DateFrom = uw.DateFrom,
+                                 DateTo = uw.DateTo,
+                                 TotalEarned = uw.TotalEarned,
+                                 UserRate = uw.UserRate,
+                                 WorkId = f.WorkId ?? 0,
+                                 Feedback = new FeedbackModel
+                                 {
+                                     Rating = f.Rating,
+                                     Message = f.Message,
+                                 }
+                             }).ToList();
 
             var skills = _repositoryManager.UserSkills.GetAll()
                                          .Where(s => s.UserId == user.Id)
@@ -85,7 +86,7 @@ namespace BLL.Operations
                                          .Select(s => new SkillModel
                                          {
                                              Name = s.Name
-                                         });
+                                         }).ToList();
             var userModel = new UserModel
             {
                 Id = user.Id,
@@ -98,13 +99,13 @@ namespace BLL.Operations
                 HoursWorked = user.HoursWorked,
                 TimePlusUTC = user.TimePlusUTC,
                 TotalEarned = user.TotalEarned,
-                WorksCount = user.UserWorks.Count(),
+                WorksCount = user.UserWorks?.Count() ?? 0,
                 Education = education,
                 Employment = employment,
                 Location = new LocationModel
                 {
-                    Id = location.Id,
-                    Country = location.Country
+                    Id = user.Location.Id,
+                    Country = user.Location.Country
                 },
                 Portfolios = portfolios,
                 Skills = skills,
@@ -117,11 +118,11 @@ namespace BLL.Operations
         public IEnumerable<UserViewModel> GetUsers(UserFilterModel filter)
         {
             var users = _repositoryManager.Users.GetAll();
-
+            var locations = _repositoryManager.Locations.GetAll();
             users = filter.Filter(users);
 
             var usersList = from u in users
-                            let l = _repositoryManager.Locations.GetSingle(u.LocationId)
+                            join l in locations on u.LocationId equals l.Id
                             select new UserViewModel
                             {
                                 Id = u.Id,
@@ -159,54 +160,59 @@ namespace BLL.Operations
             _repositoryManager.Users.Add(dbUser);
             _repositoryManager.Users.SaveChanges();
 
-            foreach (var e in user.Education)
-            {
-                _repositoryManager.Educations.Add(new Education
+            if (user.Education != null)
+                foreach (var e in user.Education)
                 {
-                    DateFrom = e.DateFrom,
-                    DateTo = e.DateTo,
-                    Degree = e.Degree,
-                    Description = e.Description,
-                    School = e.SchoolOrInstitute,
-                    UserId = dbUser.Id,
-                });
-            }
+                    _repositoryManager.Educations.Add(new Education
+                    {
+                        DateFrom = e.DateFrom,
+                        DateTo = e.DateTo,
+                        Degree = e.Degree,
+                        Description = e.Description,
+                        School = e.SchoolOrInstitute,
+                        UserId = dbUser.Id,
+                    });
+                }
 
-            foreach (var e in user.Employment)
-            {
-                _repositoryManager.Employments.Add(new Employment
+            if (user.Employment != null)
+                foreach (var e in user.Employment)
                 {
-                    DateFrom = e.DateFrom,
-                    DateTo = e.DateTo,
-                    Description = e.Description,
-                    UserId = dbUser.Id,
-                    City = e.City,
-                    Company = e.Company,
-                    CurrentlyWorking = e.CurrentlyWorking,
-                    LocationId = e.LocationId,
-                    Title = e.Title,
-                });
-            }
+                    _repositoryManager.Employments.Add(new Employment
+                    {
+                        DateFrom = e.DateFrom,
+                        DateTo = e.DateTo,
+                        Description = e.Description,
+                        UserId = dbUser.Id,
+                        City = e.City,
+                        Company = e.Company,
+                        CurrentlyWorking = e.CurrentlyWorking,
+                        LocationId = e.LocationId,
+                        Title = e.Title,
+                        Role = e.Role
+                    });
+                }
 
-            foreach (var e in user.Portfolios)
-            {
-                _repositoryManager.Portfolios.Add(new Portfolio
+            if (user.Portfolios != null)
+                foreach (var e in user.Portfolios)
                 {
-                    Description = e.Description,
-                    UserId = dbUser.Id,
-                    ProjectUrl = e.ProjectUrl,
-                    Title = e.Title,
-                });
-            }
+                    _repositoryManager.Portfolios.Add(new Portfolio
+                    {
+                        Description = e.Description,
+                        UserId = dbUser.Id,
+                        ProjectUrl = e.ProjectUrl,
+                        Title = e.Title,
+                    });
+                }
 
-            foreach (var e in user.Skills)
-            {
-                _repositoryManager.UserSkills.Add(new UserSkill
+            if (user.Skills != null)
+                foreach (var e in user.Skills)
                 {
-                    UserId = dbUser.Id,
-                    SkillId = e.Id
-                });
-            }
+                    _repositoryManager.UserSkills.Add(new UserSkill
+                    {
+                        UserId = dbUser.Id,
+                        SkillId = e.Id
+                    });
+                }
 
             _repositoryManager.Users.SaveChanges();
 

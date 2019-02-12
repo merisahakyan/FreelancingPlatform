@@ -6,8 +6,8 @@ namespace Core.Database
 {
     public class UserWork : BaseEntity
     {
-        public int UserId { get; set; }
-        public int WorkId { get; set; }
+        public int? UserId { get; set; }
+        public int? WorkId { get; set; }
         public decimal UserRate { get; set; }
         public decimal TotalEarned { get; set; }
         public DateTime DateFrom { get; set; }

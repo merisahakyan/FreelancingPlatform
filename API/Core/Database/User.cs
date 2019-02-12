@@ -13,14 +13,14 @@ namespace Core.Database
         public string Description { get; set; }
         public decimal HourlyRate { get; set; }
         public int TimePlusUTC { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public int HoursWorked { get; set; }
         public decimal TotalEarned { get; set; }
         public bool Availability { get; set; }
         public string PhoneNumber { get; set; }
         public string PasswordHash { get; set; }
         public Location Location { get; set; }
-        public int RoleId { get; set; }
+        public int? RoleId { get; set; }
         public Role Role { get; set; }
         public IEnumerable<Work> CreatedWorks { get; set; }
         public IEnumerable<UserWork> UserWorks { get; set; }
@@ -30,7 +30,7 @@ namespace Core.Database
         public IEnumerable<Proposal> Proposals { get; set; }
         public IEnumerable<UserSkill> UserSkills { get; set; }
         public IEnumerable<UserCertificate> UserCertificates { get; set; }
-        public IEnumerable<Employment> Employment { get; set; }
+        public ICollection<Employment> Employment { get; set; }
         public IEnumerable<Education> Educations { get; set; }
     }
 }

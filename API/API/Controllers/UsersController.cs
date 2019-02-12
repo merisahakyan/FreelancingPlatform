@@ -25,15 +25,15 @@ namespace API.Controllers
             _formatter = new JsonMediaTypeFormatter();
         }
         [HttpGet]
-        public HttpResponseMessage Get([FromBody] UserFilterModel filter)
+        public HttpResponseMessage Get([FromQuery] UserFilterModel filter)
         {
             try
             {
-                var users = _operations.GetUsers(filter);
+                var users = _operations.GetUsers(filter).ToList();
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new ObjectContent<IEnumerable<UserViewModel>>(users, _formatter)
+                    Content = new ObjectContent<List<UserViewModel>>(users, _formatter)
                 };
             }
             catch (Exception ex)

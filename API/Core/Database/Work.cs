@@ -8,7 +8,7 @@ namespace Core.Database
     {
         public string Header { get; set; }
         public string Description { get; set; }
-        public int CreatorId { get; set; }
+        public int? CreatorId { get; set; }
         public User Creator { get; set; }
         public IEnumerable<WorkKey> WorkKeys { get; set; }
         public IEnumerable<UserWork> UserWorks { get; set; }
