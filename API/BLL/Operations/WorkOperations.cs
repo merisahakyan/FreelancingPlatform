@@ -26,6 +26,7 @@ namespace BLL.Operations
             if (userWork == null)
                 throw new Exception();
             userWork.DateTo = DateTime.Now;
+            userWork.Active = false;
             _repositoryManager.UserWorks.Update(userWork);
             _repositoryManager.UserWorks.SaveChanges();
 
@@ -146,6 +147,7 @@ namespace BLL.Operations
             dbWork.Header = work.Header;
 
             _repositoryManager.Works.Update(dbWork);
+            _repositoryManager.Works.SaveChanges();
         }
     }
 }

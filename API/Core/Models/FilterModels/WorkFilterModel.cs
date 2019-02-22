@@ -16,11 +16,11 @@ namespace Core.Models.FilterModels
         public List<string> WorkKeys { get; set; }
         public override IQueryable<Work> Filter(IQueryable<Work> query)
         {
-            if (string.IsNullOrEmpty(Header))
+            if (!string.IsNullOrEmpty(Header))
             {
                 query = query.Where(q => q.Header.Contains(Header));
             }
-            if (string.IsNullOrEmpty(Description))
+            if (!string.IsNullOrEmpty(Description))
             {
                 query = query.Where(q => q.Header.Contains(Description));
             }
