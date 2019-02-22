@@ -19,14 +19,46 @@ namespace BLL.Operations
             _repositoryManager = repositoryManager;
         }
 
-        public void BreakContract(int userId, int workId)
+        public UserWorkModel BreakContract(int userId, int workId)
         {
             var userWork = _repositoryManager.UserWorks.GetAll().FirstOrDefault(uw => uw.UserId == userId && uw.WorkId == workId);
 
             if (userWork == null)
                 throw new Exception();
-            _repositoryManager.UserWorks.Delete(userWork.Id);
+            userWork.DateTo = DateTime.Now;
+            _repositoryManager.UserWorks.Update(userWork);
             _repositoryManager.UserWorks.SaveChanges();
+
+            return new UserWorkModel
+            {
+                Id = userWork.Id,
+                DateFrom = userWork.DateFrom,
+                DateTo = userWork.DateTo,
+                TotalEarned = userWork.TotalEarned,
+                UserId = userWork.UserId ?? 0,
+                UserRate = userWork.UserRate,
+                WorkId = userWork.WorkId ?? 0,
+            };
+        }
+
+        public WorkModel CreateWork(WorkModel work)
+        {
+            Work dbWork = new Work();
+            dbWork.CreatorId = work.Creator.Id;
+            dbWork.Description = work.Description;
+            dbWork.Header = work.Header;
+
+            _repositoryManager.Works.Add(dbWork);
+            _repositoryManager.Works.SaveChanges();
+
+            work.Id = dbWork.Id;
+            return work;
+        }
+
+        public void DeleteWork(int id)
+        {
+            _repositoryManager.Works.Delete(id);
+            _repositoryManager.Works.SaveChanges();
         }
 
         public WorkModel GetWork(int id)
@@ -82,7 +114,7 @@ namespace BLL.Operations
             return usersList;
         }
 
-        public void Hire(int userId, int workId, decimal rate)
+        public UserWorkModel Hire(int userId, int workId, decimal rate)
         {
             var userWork = new UserWork
             {
@@ -94,6 +126,26 @@ namespace BLL.Operations
             };
             _repositoryManager.UserWorks.Add(userWork);
             _repositoryManager.UserWorks.SaveChanges();
+
+            return new UserWorkModel
+            {
+                Id = userWork.Id,
+                DateFrom = userWork.DateFrom,
+                DateTo = null,
+                TotalEarned = 0,
+                UserId = userWork.UserId ?? 0,
+                UserRate = userWork.UserRate,
+                WorkId = userWork.WorkId ?? 0
+            };
+        }
+
+        public void UpdateWork(WorkModel work)
+        {
+            Work dbWork = _repositoryManager.Works.GetSingle(work.Id);
+            dbWork.Description = work.Description;
+            dbWork.Header = work.Header;
+
+            _repositoryManager.Works.Update(dbWork);
         }
     }
 }

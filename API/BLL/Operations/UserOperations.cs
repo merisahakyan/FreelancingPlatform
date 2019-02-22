@@ -66,6 +66,7 @@ namespace BLL.Operations
 
                              select new UserWorkModel
                              {
+                                 Id = uw.Id,
                                  UserId = user.Id,
                                  Header = w.Header,
                                  DateFrom = uw.DateFrom,

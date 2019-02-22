@@ -1,4 +1,5 @@
-﻿using Core.Models.BusinessModels;
+﻿using Core.Database;
+using Core.Models.BusinessModels;
 using Core.Models.FilterModels;
 using Core.Models.ViewModels;
 using System;
@@ -11,7 +12,10 @@ namespace Core.OperationInterfaces
     {
         IEnumerable<WorkViewModel> GetWorks(WorkFilterModel filter);
         WorkModel GetWork(int id);
-        void Hire(int userId, int workId, decimal rate);
-        void BreakContract(int userId, int workId);
+        UserWorkModel Hire(int userId, int workId, decimal rate);
+        UserWorkModel BreakContract(int userId, int workId);
+        WorkModel CreateWork(WorkModel work);
+        void UpdateWork(WorkModel work);
+        void DeleteWork(int id);
     }
 }

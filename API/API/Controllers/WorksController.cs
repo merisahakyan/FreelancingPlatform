@@ -9,31 +9,32 @@ using Core.Models.BusinessModels;
 using Core.Models.FilterModels;
 using Core.Models.ViewModels;
 using Core.OperationInterfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class WorksController : ControllerBase
     {
-        IUserOperations _operations;
+        IWorkOperations _operations;
         MediaTypeFormatter _formatter;
-        public UsersController(IUserOperations op)
+        public WorksController(IWorkOperations op)
         {
             _operations = op;
             _formatter = new JsonMediaTypeFormatter();
         }
         [HttpGet]
-        public HttpResponseMessage Get([FromQuery] UserFilterModel filter)
+        public HttpResponseMessage Get([FromQuery] WorkFilterModel filter)
         {
             try
             {
-                var users = _operations.GetUsers(filter).ToList();
+                var works = _operations.GetWorks(filter).ToList();
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new ObjectContent<List<UserViewModel>>(users, _formatter)
+                    Content = new ObjectContent<List<WorkViewModel>>(works, _formatter)
                 };
             }
             catch (Exception ex)
@@ -52,11 +53,11 @@ namespace API.Controllers
         {
             try
             {
-                var user = _operations.GetUser(id);
+                var work = _operations.GetWork(id);
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new ObjectContent<UserModel>(user, _formatter)
+                    Content = new ObjectContent<WorkModel>(work, _formatter)
                 };
             }
             catch (Exception ex)
@@ -70,15 +71,15 @@ namespace API.Controllers
 
         // POST api/values
         [HttpPost]
-        public HttpResponseMessage Post([FromBody] UserModel user)
+        public HttpResponseMessage Post([FromBody] WorkModel work)
         {
             try
             {
-                var registeredUser = _operations.RegisterUser(user);
+                var registeredUser = _operations.CreateWork(work);
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new ObjectContent<UserModel>(user, _formatter)
+                    Content = new ObjectContent<WorkModel>(work, _formatter)
                 };
             }
             catch (Exception ex)
@@ -92,16 +93,16 @@ namespace API.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public HttpResponseMessage Put(int id, [FromBody] UserModel user)
+        public HttpResponseMessage Put(int id, [FromBody] WorkModel work)
         {
             try
             {
-                user.Id = id;
-                _operations.UpdateUser(user);
+                work.Id = id;
+                _operations.UpdateWork(work);
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent($"User {id} updated")
+                    Content = new StringContent($"Work {id} updated")
                 };
             }
             catch (Exception ex)
@@ -119,11 +120,53 @@ namespace API.Controllers
         {
             try
             {
-                _operations.DeleteUser(id);
+                _operations.DeleteWork(id);
                 return new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent($"User {id} deleted")
+                    Content = new StringContent($"Work {id} deleted")
+                };
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                };
+            }
+        }
+
+        [HttpPut("{userId}/{workId}/{rate:decimal}")]
+        public HttpResponseMessage HireUser(int userId, int workId, decimal rate)
+        {
+            try
+            {
+                var hireResult = _operations.Hire(userId, workId, rate);
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new ObjectContent<UserWorkModel>(hireResult, _formatter)
+                };
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                };
+            }
+        }
+
+        [HttpPut("{userId}/{workId}")]
+        public HttpResponseMessage BreakContract(int userId, int workId)
+        {
+            try
+            {
+                var breakResult = _operations.BreakContract(userId, workId);
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new ObjectContent<UserWorkModel>(breakResult, _formatter)
                 };
             }
             catch (Exception ex)
