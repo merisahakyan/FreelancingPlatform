@@ -19,10 +19,8 @@ namespace BLL.Operations
             _repositoryManager = repositoryManager;
         }
 
-        public IEnumerable<ProposalViewModel> GetProposalsForWork(int workId, ProposalFilterModel filter)
+        public IEnumerable<ProposalViewModel> GetProposals(ProposalFilterModel filter)
         {
-            filter.WorkId = workId;
-
             var proposals = _repositoryManager.Proposals.GetAll();
             proposals = filter.Filter(proposals);
 
@@ -37,12 +35,19 @@ namespace BLL.Operations
                     Lastname = p.User.Lastname,
                     Location = new LocationModel
                     {
-                        Id = p.User.LocationId??0,
+                        Id = p.User.LocationId ?? 0,
                         Country = p.User.Location.Country
                     }
                 },
-                WorkId = workId
+                WorkId = p.WorkId ?? 0
             });
+        }
+
+        public IEnumerable<ProposalViewModel> GetProposalsForWork(int workId, ProposalFilterModel filter)
+        {
+            filter.WorkId = workId;
+
+            return GetProposals(filter);
         }
 
         public void SubmitProposal(ProposalModel proposal)

@@ -11,5 +11,6 @@ namespace Core.OperationInterfaces
     {
         void SubmitProposal(ProposalModel proposal);
         IEnumerable<ProposalViewModel> GetProposalsForWork(int workId, ProposalFilterModel filter);
+        IEnumerable<ProposalViewModel> GetProposals(ProposalFilterModel filter);
     }
 }
