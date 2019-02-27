@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Core.Models.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Freelancers";
+}
+
+<h2>Freelancers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DescriptionHeader)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HourlyRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalEarned)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionHeader)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HourlyRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalEarned)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "UserDetails", new {  id=item.Id  })  |
+                    @Html.ActionLink("Hire", "ApplyHire", new {  id=item.Id  })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+﻿@model Core.Models.BusinessModels.ProposalModel
+
+@{
+    ViewData["Title"] = "Create Proposal";
+}
+
+<h2>ApplyHire</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ApplyHire">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Rate" class="control-label"></label>
+                <input asp-for="Rate" class="form-control" />
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DaysCount" class="control-label"></label>
+                <input asp-for="DaysCount" class="form-control" />
+                <span asp-validation-for="DaysCount" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" onclick="location.href='@Url.Action("Jobs", "Work")'" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

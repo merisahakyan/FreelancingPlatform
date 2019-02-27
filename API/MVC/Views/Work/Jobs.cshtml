@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Core.Models.ViewModels.WorkViewModel>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<h2>Jobs</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Header)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Header)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "JobDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
