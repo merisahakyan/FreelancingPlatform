@@ -1,10 +1,33 @@
-﻿@model IEnumerable<Core.Models.ViewModels.WorkViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@using MVC.Data
+@using System.Security.Claims;
+
+@model IEnumerable<Core.Models.ViewModels.WorkViewModel>
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Jobs";
 }
-
+@{
+    Roles? userRole = null;
+    if (User != null && User.Identity != null)
+    {
+        var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        User user;
+        if (claim != null)
+        {
+            user = UserManager.FindByIdAsync(claim.Value).Result;
+            userRole = user.Role;
+        }
+    }
+}
 <h2>Jobs</h2>
+@if (!SignInManager.IsSignedIn(User) || (userRole.HasValue && userRole == Roles.Freelancer))
+{
+    <h4>Login for apply to job!</h4>
+}
 
 <table class="table">
     <thead>
@@ -29,8 +52,11 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "JobDetails", new { id = item.Id }) |
-                    @Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })
+                    @Html.ActionLink("Details", "JobDetails", new { id = item.Id })|
+                    @if (userRole.HasValue && userRole == Roles.Freelancer)
+                    {
+                        @Html.ActionLink("Apply", "ApplyHire", new { id = item.Id });
+                    }
                 </td>
             </tr>
         }

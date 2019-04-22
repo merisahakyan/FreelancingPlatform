@@ -24,6 +24,7 @@ namespace MVC
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -37,10 +38,13 @@ namespace MVC
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+
+            services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            AddRoles();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +73,27 @@ namespace MVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public void AddRoles()
+        {
+            ApplicationDbContext context = new ApplicationDbContext(Configuration.GetConnectionString("DefaultConnection"));
+            if (context.Roles.Any())
+                return;
+            context.Roles.AddRange(new List<Role>
+            {
+                new Role
+                {
+                    Name="Freelancer",
+                    RoleType=Roles.Freelancer,
+                },
+                new Role
+                {
+                    Name="Other",
+                    RoleType=Roles.Other,
+                }
+            });
+            context.SaveChanges();
         }
     }
 }

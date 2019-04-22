@@ -10,6 +10,7 @@ namespace MVC.Controllers
 {
     public class WorkController : Controller
     {
+
         public IActionResult Freelancers()
         {
             List<UserViewModel> users = new List<UserViewModel>

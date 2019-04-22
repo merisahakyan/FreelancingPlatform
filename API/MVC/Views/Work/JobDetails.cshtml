@@ -1,11 +1,31 @@
-﻿@model Core.Models.BusinessModels.WorkModel
+﻿
+@using Microsoft.AspNetCore.Identity
+@using MVC.Data
+@using System.Security.Claims;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model Core.Models.BusinessModels.WorkModel
 
 @{
     ViewData["Title"] = "JobDetails";
 }
 
 <h2>Details</h2>
-
+@{
+    Roles? userRole = null;
+    if (User != null && User.Identity != null)
+    {
+        var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        User user;
+        if (claim != null)
+        {
+            user = UserManager.FindByIdAsync(claim.Value).Result;
+            userRole = user.Role;
+        }
+    }
+}
 <div>
 
     <dl class="dl-horizontal">
@@ -27,8 +47,11 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt></dt>
-        <dd>@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</dd>
+        @if (userRole == Roles.Freelancer)
+        {
+            <dt></dt>
+            <dd>@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</dd>
+        }
     </dl>
 </div>
 <div>

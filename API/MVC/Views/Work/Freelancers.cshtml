@@ -1,10 +1,34 @@
-﻿@model IEnumerable<Core.Models.ViewModels.UserViewModel>
+﻿@using Microsoft.AspNetCore.Identity
+@using MVC.Data
+@using System.Security.Claims;
+
+@model IEnumerable<Core.Models.ViewModels.UserViewModel>
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Freelancers";
 }
 
 <h2>Freelancers</h2>
+@{
+    Roles? userRole = null;
+    if (User != null && User.Identity != null)
+    {
+        var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        User user;
+        if (claim != null)
+        {
+            user = UserManager.FindByIdAsync(claim.Value).Result;
+            userRole = user.Role;
+        }
+    }
+}
+@if (!SignInManager.IsSignedIn(User) || (userRole.HasValue && userRole == Roles.Freelancer))
+{
+    <h4>Login for hire freelancer!</h4>
+}
 
 <table class="table">
     <thead>
@@ -47,8 +71,11 @@
                     @Html.DisplayFor(modelItem => item.TotalEarned)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "UserDetails", new {  id=item.Id  })  |
-                    @Html.ActionLink("Hire", "ApplyHire", new {  id=item.Id  })
+                    @Html.ActionLink("Details", "UserDetails", new { id = item.Id })  |
+                    @if (userRole.HasValue && userRole == Roles.Other)
+                    {
+                        @Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })
+                    }
                 </td>
             </tr>
         }

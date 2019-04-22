@@ -1,7 +1,29 @@
-﻿@model Core.Models.BusinessModels.UserModel
+﻿
+@using Microsoft.AspNetCore.Identity
+@using MVC.Data
+@using System.Security.Claims;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@model Core.Models.BusinessModels.UserModel
 
 @{
     ViewData["Title"] = "UserDetails";
+}
+
+@{
+    Roles? userRole = null;
+    if (User != null && User.Identity != null)
+    {
+        var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        User user;
+        if (claim != null)
+        {
+            user = UserManager.FindByIdAsync(claim.Value).Result;
+            userRole = user.Role;
+        }
+    }
 }
 
 <h2>Details</h2>
@@ -83,10 +105,13 @@
         <dd>
             @Html.DisplayFor(model => model.Availability)
         </dd>
-        <dt></dt>
-        <dd>@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</dd>
+        @if (userRole == Roles.Other)
+        {
+            <dt></dt>
+            <dd>@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</dd>
+        }
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Back to list", "Freelancers", new {  })
+    @Html.ActionLink("Back to list", "Freelancers", new { })
 </div>
