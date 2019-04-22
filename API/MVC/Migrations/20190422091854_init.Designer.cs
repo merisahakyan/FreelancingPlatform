@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190422065924_init")]
+    [Migration("20190422091854_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,11 +61,9 @@ namespace MVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -95,11 +93,9 @@ namespace MVC.Migrations
                 {
                     b.Property<int>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -143,13 +139,27 @@ namespace MVC.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<bool>("Availability");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("DescriptionHeader");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("Firstname");
+
+                    b.Property<decimal>("HourlyRate");
+
+                    b.Property<int>("HoursWorked");
+
+                    b.Property<string>("Lastname");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -170,6 +180,10 @@ namespace MVC.Migrations
                     b.Property<int>("Role");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<int>("TimePlusUTC");
+
+                    b.Property<decimal>("TotalEarned");
 
                     b.Property<bool>("TwoFactorEnabled");
 

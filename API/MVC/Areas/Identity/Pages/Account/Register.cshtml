@@ -28,11 +28,56 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Input.DescriptionHeader"></label>
+                <input asp-for="Input.DescriptionHeader" class="form-control" />
+                <span asp-validation-for="Input.DescriptionHeader" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Description"></label>
+                <input asp-for="Input.Description" class="form-control" />
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Firstname"></label>
+                <input asp-for="Input.Firstname" class="form-control" />
+                <span asp-validation-for="Input.Firstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Lastname"></label>
+                <input asp-for="Input.Lastname" class="form-control" />
+                <span asp-validation-for="Input.Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Username"></label>
+                <input asp-for="Input.Username" class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Phonenumber"></label>
+                <input asp-for="Input.Phonenumber" class="form-control" />
+                <span asp-validation-for="Input.Phonenumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.TimePlusUTC"></label>
+                <input asp-for="Input.TimePlusUTC" class="form-control" />
+                <span asp-validation-for="Input.TimePlusUTC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.HourlyRate"></label>
+                <input asp-for="Input.HourlyRate" class="form-control" />
+                <span asp-validation-for="Input.HourlyRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Availability"></label>
+                <input asp-for="Input.Availability" class="form-control" />
+                <span asp-validation-for="Input.Availability" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.RoleType">(0 for freelancer, 1 for other)</label>
-                <input asp-for="Input.RoleType" class="form-control" />              
+                <input asp-for="Input.RoleType" class="form-control" />
                 <span asp-validation-for="Input.RoleType" class="text-danger"></span>
             </div>
-            
+
             <button type="submit" class="btn btn-default">Register</button>
         </form>
     </div>

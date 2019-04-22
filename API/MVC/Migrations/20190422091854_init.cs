@@ -44,7 +44,16 @@ namespace MVC.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Role = table.Column<int>(nullable: false)
+                    Role = table.Column<int>(nullable: false),
+                    Firstname = table.Column<string>(nullable: true),
+                    Lastname = table.Column<string>(nullable: true),
+                    DescriptionHeader = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    HourlyRate = table.Column<decimal>(nullable: false),
+                    TimePlusUTC = table.Column<int>(nullable: false),
+                    HoursWorked = table.Column<int>(nullable: false),
+                    TotalEarned = table.Column<decimal>(nullable: false),
+                    Availability = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,8 +106,8 @@ namespace MVC.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
@@ -142,8 +151,8 @@ namespace MVC.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

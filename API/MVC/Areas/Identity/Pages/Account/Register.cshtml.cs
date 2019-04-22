@@ -58,6 +58,19 @@ namespace MVC.Areas.Identity.Pages.Account
 
             [Display(Name = "Choose account type")]
             public Roles RoleType { get; set; }
+            [Required]
+            public string Phonenumber { get; set; }
+
+            public string Firstname { get; set; }
+            public string Lastname { get; set; }
+            public string Username { get; set; }
+            public string DescriptionHeader { get; set; }
+            public string Description { get; set; }
+            public decimal HourlyRate { get; set; }
+            public int TimePlusUTC { get; set; }
+            public int HoursWorked { get; set; }
+            public decimal TotalEarned { get; set; }
+            public bool Availability { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -70,7 +83,20 @@ namespace MVC.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email, Role = (Roles)Input.RoleType };
+                var user = new User
+                {
+                    Email = Input.Email,
+                    Role = (Roles)Input.RoleType,
+                    Availability = Input.Availability,
+                    Description=Input.Description,
+                    PhoneNumber=Input.Phonenumber,
+                    DescriptionHeader=Input.DescriptionHeader,
+                    Firstname=Input.Firstname,
+                    HourlyRate=Input.HourlyRate,
+                    Lastname=Input.Lastname,
+                    TimePlusUTC=Input.TimePlusUTC,
+                    UserName=Input.Username,
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

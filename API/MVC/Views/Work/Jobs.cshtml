@@ -23,7 +23,11 @@
         }
     }
 }
-<h2>Jobs</h2>
+<h2>Jobs </h2>
+@if (userRole == Roles.Other)
+{
+    @Html.ActionLink("Create", "CreateNewJob")
+}
 @if (!SignInManager.IsSignedIn(User) || (userRole.HasValue && userRole == Roles.Freelancer))
 {
     <h4>Login for apply to job!</h4>
