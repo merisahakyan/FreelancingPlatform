@@ -26,7 +26,7 @@
 <h2>Jobs </h2>
 @if (userRole == Roles.Other)
 {
-    @Html.ActionLink("Create", "CreateNewJob")
+    <button type="button" class="btn btn-primary">@Html.ActionLink("Create", "CreateNewJob")</button>
 }
 @if (!SignInManager.IsSignedIn(User) || (userRole.HasValue && userRole == Roles.Freelancer))
 {
@@ -56,10 +56,12 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "JobDetails", new { id = item.Id })|
+                    <button type="button" class="btn btn-info">@Html.ActionLink("Details", "JobDetails", new { id = item.Id })</button>
+                    |
                     @if (userRole.HasValue && userRole == Roles.Freelancer)
                     {
-                        @Html.ActionLink("Apply", "ApplyHire", new { id = item.Id });
+                        <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })</button>
+
                     }
                 </td>
             </tr>

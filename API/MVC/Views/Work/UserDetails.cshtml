@@ -108,10 +108,11 @@
         @if (userRole == Roles.Other)
         {
             <dt></dt>
-            <dd>@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</dd>
+            <dd><button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</button></dd>
         }
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Back to list", "Freelancers", new { })
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Back to list", "Freelancers", new { })</button>
+    
 </div>

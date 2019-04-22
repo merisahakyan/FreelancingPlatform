@@ -50,10 +50,11 @@
         @if (userRole == Roles.Freelancer)
         {
             <dt></dt>
-            <dd>@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</dd>
+            <dd><button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</button></dd>
         }
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Back to list", "Jobs", new { })
+    <button type="button" class="btn btn-dark">@Html.ActionLink("Back to list", "Jobs", new { })</button>
+    
 </div>

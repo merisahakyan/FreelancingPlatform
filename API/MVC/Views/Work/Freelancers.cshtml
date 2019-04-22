@@ -71,10 +71,11 @@
                     @Html.DisplayFor(modelItem => item.TotalEarned)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "UserDetails", new { id = item.Id })  |
+                    <button type="button" class="btn btn-info"> @Html.ActionLink("Details", "UserDetails", new { id = item.Id })</button>
+                    |
                     @if (userRole.HasValue && userRole == Roles.Other)
                     {
-                        @Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })
+                        <button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })</button>
                     }
                 </td>
             </tr>
