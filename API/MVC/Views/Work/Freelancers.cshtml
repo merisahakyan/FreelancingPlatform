@@ -75,7 +75,7 @@
                     |
                     @if (userRole.HasValue && userRole == Roles.Other)
                     {
-                        <button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })</button>
+                        <button type="button" class="btn btn-success" >@Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })</button>
                     }
                 </td>
             </tr>
