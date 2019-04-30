@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Core.Enums;
 using Core.Models.BusinessModels;
@@ -42,26 +43,22 @@ namespace MVC.Controllers
 
         public IActionResult UserDetails(int id)
         {
+            var dbUser = context.Users.FirstOrDefault(u => u.Id == id);
             var user = new UserModel
             {
-                DescriptionHeader = "Test",
-                Firstname = "Firstname",
-                HourlyRate = 10,
-                Id = 1,
-                Lastname = "Lastname",
-                Location = new LocationModel
-                {
-                    Id = 1,
-                    Country = "Armenia"
-                },
-                TotalEarned = 0,
-                Availability = true,
-                Description = "test",
-                HoursWorked = 50,
-                TimePlusUTC = 4,
-                Username = "username",
-                Phonenumber = "00000",
-                WorksCount = 3
+                DescriptionHeader = dbUser.DescriptionHeader,
+                Firstname = dbUser.Firstname,
+                HourlyRate = dbUser.HourlyRate,
+                Id = dbUser.Id,
+                Lastname = dbUser.Lastname,
+                TotalEarned = dbUser.TotalEarned,
+                Availability = dbUser.Availability,
+                Description = dbUser.Description,
+                HoursWorked = dbUser.HoursWorked,
+                TimePlusUTC = dbUser.TimePlusUTC,
+                Username = dbUser.UserName,
+                Phonenumber = dbUser.PhoneNumber,
+                WorksCount = 0
             };
             return View(user);
         }
@@ -80,6 +77,19 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult ApplyHire(ProposalModel model)
         {
+            var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var senderId = int.Parse(claim.Value);
+            var sender = context.Users.FirstOrDefault(u => u.Id == senderId);
+            if (sender.Role == Data.Roles.Freelancer)
+            {
+                string message = $"Hi, I want to apply to your job with rate {model.Rate} in {model.DaysCount} days. \r\n {model.Message} \r\n Best regards, {sender.Firstname} {sender.Lastname}";
+                EmailSender.SendEmail(sender.Email, "mail1", "merishok975", "Apply request", message);
+            }
+            else
+            {
+                string message = $"Hi, I want to hire you for my work with rate {model.Rate} in {model.DaysCount} days. \r\n {model.Message} \r\n Best regards, {sender.Firstname} {sender.Lastname}";
+                EmailSender.SendEmail(sender.Email, "mail2", "merishok975", "Hire request", message);
+            }
             return View("../Home/Index");
         }
 
@@ -92,6 +102,8 @@ namespace MVC.Controllers
         public IActionResult CreateNewJob(WorkModel model)
         {
             model.Id = DataClass.jobs.Max(j => j.Id) + 1;
+            var claim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            model.CreatorId = int.Parse(claim.Value);
             DataClass.jobs.Add(model);
             return View("../Home/Index");
         }

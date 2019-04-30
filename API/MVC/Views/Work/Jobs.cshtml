@@ -53,18 +53,21 @@
                     @Html.DisplayFor(modelItem => item.Header)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <button type="button" class="btn btn-info">@Html.ActionLink("Details", "JobDetails", new { id = item.Id })</button>
-                    |
-                    @if (userRole.HasValue && userRole == Roles.Freelancer)
-                    {
-                        <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })</button>
+                    @{
+                        var desc = item.Description.Substring(0, 20)+"...";
+                }
+                @Html.DisplayFor(modelItem => desc)
+            </td>
+            <td>
+                <button type="button" class="btn btn-info">@Html.ActionLink("Details", "JobDetails", new { id = item.Id })</button>
+                |
+                @if (userRole.HasValue && userRole == Roles.Freelancer)
+                {
+                    <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })</button>
 
-                    }
-                </td>
-            </tr>
-        }
+                }
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

@@ -26,35 +26,17 @@
         }
     }
 }
+
+<h4>@Html.DisplayFor(model => model.Header)</h4>
+<p style="font-size:15px">@Html.DisplayFor(model => model.Description)</p>
 <div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Header)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Header)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        @if (userRole == Roles.Freelancer)
-        {
-            <dt></dt>
-            <dd><button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</button></dd>
-        }
-    </dl>
+    @if (userRole == Roles.Freelancer)
+    {
+        <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = Model.Id })</button>
+    }
 </div>
 <div>
     <button type="button" class="btn btn-dark">@Html.ActionLink("Back to list", "Jobs", new { })</button>
-    
+
 </div>

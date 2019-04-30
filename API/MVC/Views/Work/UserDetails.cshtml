@@ -26,93 +26,55 @@
     }
 }
 
-<h2>Details</h2>
+<h2>@Html.DisplayFor(model => model.Firstname) @Html.DisplayFor(model => model.Lastname)</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" style="background-color:#b1b14f40">
+            <label>@Html.DisplayNameFor(model => model.HourlyRate)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.HourlyRate)</b></p>
+        </div>
+        <div class="col-md-4" style="background-color:#755c3847">
+            <label>@Html.DisplayNameFor(model => model.HoursWorked)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.HoursWorked)</b></p>
+        </div>
+        <div class="col-md-4" style="background-color:#b1b14f40">
+            <label>@Html.DisplayNameFor(model => model.WorksCount)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.WorksCount)</b></p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" style="background-color:#755c3847">
+            <label>@Html.DisplayNameFor(model => model.TimePlusUTC)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.TimePlusUTC)</b></p>
+        </div>
+        <div class="col-md-4" style="background-color:#b1b14f40">
+            <label>@Html.DisplayNameFor(model => model.TotalEarned)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.TotalEarned)</b></p>
+        </div>
+        <div class="col-md-4" style="background-color:#755c3847">
+            <label>@Html.DisplayNameFor(model => model.Availability)</label><br />
+            <p style="font-size:30px"><b>@Html.DisplayFor(model => model.Availability)</b></p>
+        </div>
+    </div>
+</div>
+<h3>@Html.DisplayFor(model => model.DescriptionHeader)</h3>
 
+<h4>@Html.DisplayNameFor(model => model.Phonenumber) :  @Html.DisplayFor(model => model.Phonenumber)</h4>
+<p style="font-size:15px">
+    @Html.DisplayFor(model => model.Description)
+</p>
 <div>
 
-    <dl class="dl-horizontal">
+    @if (userRole == Roles.Other)
+    {
+        <button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</button>
+    }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Firstname)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Firstname)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Lastname)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Lastname)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Username)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Username)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Phonenumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Phonenumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DescriptionHeader)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DescriptionHeader)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HourlyRate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HourlyRate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TimePlusUTC)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TimePlusUTC)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HoursWorked)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HoursWorked)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalEarned)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TotalEarned)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.WorksCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.WorksCount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Availability)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Availability)
-        </dd>
-        @if (userRole == Roles.Other)
-        {
-            <dt></dt>
-            <dd><button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = Model.Id })</button></dd>
-        }
-    </dl>
 </div>
+
 <div>
     <button type="button" class="btn btn-dark">@Html.ActionLink("Back to list", "Freelancers", new { })</button>
-    
+
 </div>
