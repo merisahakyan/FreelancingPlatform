@@ -15,7 +15,8 @@ namespace MVC.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext("Server=(localdb)\\mssqllocaldb;Database=MvcApplicationDb;Trusted_Connection=True;MultipleActiveResultSets=true");
 
-        public IActionResult Freelancers()
+
+        public IActionResult Freelancers(string s)
         {
             List<UserViewModel> users = context.Users.Where(u => u.Role == Data.Roles.Freelancer).Select(u => new UserViewModel
             {
@@ -26,10 +27,15 @@ namespace MVC.Controllers
                 Lastname = u.Lastname,
                 TotalEarned = u.TotalEarned
             }).ToList();
+
+            if (!string.IsNullOrEmpty(s))
+                users = users.Where(u => u.DescriptionHeader.ToLower().Contains(s.ToLower())).ToList();
+            ViewData["searchText"] = s;
             return View(users);
         }
 
-        public IActionResult Jobs()
+
+        public IActionResult Jobs(string s)
         {
             var jobViewModels = DataClass.jobs.Select(j => new WorkViewModel
             {
@@ -38,6 +44,10 @@ namespace MVC.Controllers
                 Header = j.Header,
                 WorkKeys = j.WorkKeys
             });
+
+            if (!string.IsNullOrEmpty(s))
+                jobViewModels = jobViewModels.Where(j => j.Header.ToLower().Contains(s.ToLower()));
+
             return View(jobViewModels);
         }
 

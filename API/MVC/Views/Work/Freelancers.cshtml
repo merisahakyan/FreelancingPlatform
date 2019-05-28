@@ -29,7 +29,14 @@
 {
     <h4>Login for hire freelancer!</h4>
 }
-
+<hr />
+<form asp-controller="Work" asp-action="Freelancers">
+    <p>
+        Find by profession: <input type="text" name="s" value="@ViewData["searchText"]">
+        <input type="submit" value="Filter" class="btn btn-info"/>
+    </p>
+</form>
+<hr />
 <table class="table">
     <thead>
         <tr>
@@ -75,7 +82,7 @@
                     |
                     @if (userRole.HasValue && userRole == Roles.Other)
                     {
-                        <button type="button" class="btn btn-success" >@Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })</button>
+                        <button type="button" class="btn btn-success">@Html.ActionLink("Hire", "ApplyHire", new { id = item.Id })</button>
                     }
                 </td>
             </tr>

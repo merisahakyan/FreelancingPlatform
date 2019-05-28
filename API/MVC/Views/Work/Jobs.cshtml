@@ -32,7 +32,14 @@
 {
     <h4>Login for apply to job!</h4>
 }
-
+<hr />
+<form asp-controller="Work" asp-action="Jobs">
+    <p>
+        Find by description: <input type="text" name="s" value="@ViewData["searchText"]">
+        <input type="submit" value="Filter" class="btn btn-info" />
+    </p>
+</form>
+<hr />
 <table class="table">
     <thead>
         <tr>
@@ -54,20 +61,20 @@
                 </td>
                 <td>
                     @{
-                        var desc = item.Description.Substring(0, 20)+"...";
-                }
-                @Html.DisplayFor(modelItem => desc)
-            </td>
-            <td>
-                <button type="button" class="btn btn-info">@Html.ActionLink("Details", "JobDetails", new { id = item.Id })</button>
-                |
-                @if (userRole.HasValue && userRole == Roles.Freelancer)
-                {
-                    <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })</button>
+                        var desc = item.Description.Substring(0, 20) + "...";
+                    }
+                    @Html.DisplayFor(modelItem => desc)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-info">@Html.ActionLink("Details", "JobDetails", new { id = item.Id })</button>
+                    |
+                    @if (userRole.HasValue && userRole == Roles.Freelancer)
+                    {
+                        <button type="button" class="btn btn-success">@Html.ActionLink("Apply", "ApplyHire", new { id = item.Id })</button>
 
-                }
-            </td>
-        </tr>
-    }
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
