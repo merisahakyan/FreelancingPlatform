@@ -83,12 +83,12 @@ namespace MVC.Controllers
             if (sender.Role == Data.Roles.Freelancer)
             {
                 string message = $"Hi, I want to apply to your job with rate {model.Rate} in {model.DaysCount} days. \r\n {model.Message} \r\n Best regards, {sender.Firstname} {sender.Lastname}";
-                EmailSender.SendEmail(sender.Email, "mail1", "merishok975", "Apply request", message);
+                EmailSender.SendEmail(sender.Email, "www.merisahakyan@gmail.com", "merishok975", "Apply request", message);
             }
             else
             {
                 string message = $"Hi, I want to hire you for my work with rate {model.Rate} in {model.DaysCount} days. \r\n {model.Message} \r\n Best regards, {sender.Firstname} {sender.Lastname}";
-                EmailSender.SendEmail(sender.Email, "mail2", "merishok975", "Hire request", message);
+                EmailSender.SendEmail(sender.Email, "msahakyan1997@gmail.com", "merishok9799", "Hire request", message);
             }
             return View("../Home/Index");
         }
